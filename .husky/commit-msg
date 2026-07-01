@@ -8,14 +8,14 @@ if echo "$COMMIT_MSG" | grep -qE "^Merge "; then
 fi
 
 TYPES="feat|fix|docs|style|refactor|test|chore|design"
-PATTERN="^\[ZZAZO-[0-9]+\] (${TYPES}): .+"
+PATTERN="^(${TYPES}): .+ \(#[0-9]+\)$"
 
 if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
   echo ""
   echo "🚫 커밋 메시지 형식이 올바르지 않습니다."
   echo ""
-  echo "  올바른 형식: [ZZAZO-이슈번호] 타입: 작업명"
-  echo "  예시:        [ZZAZO-12] feat: 로그인 UI 구현"
+  echo "  올바른 형식: 타입: 작업명 (#이슈번호)"
+  echo "  예시:        feat: 로그인 UI 구현 (#12)"
   echo ""
   echo "  사용 가능한 타입:"
   echo "  feat fix docs style"
