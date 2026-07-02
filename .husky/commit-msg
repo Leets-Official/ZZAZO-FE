@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+COMMIT_MSG=$(cat "$1")
+
+# Merge 커밋은 검사 제외
+if echo "$COMMIT_MSG" | grep -qE "^Merge "; then
+  exit 0
+fi
+
+TYPES="feat|fix|docs|style|refactor|test|chore|design"
+PATTERN="^(${TYPES}): .+ \(#[0-9]+\)$"
+
+if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
+  echo ""
+  echo "🚫 커밋 메시지 형식이 올바르지 않습니다."
+  echo ""
+  echo "  올바른 형식: 타입: 작업명 (#이슈번호)"
+  echo "  예시:        feat: 로그인 UI 구현 (#12)"
+  echo ""
+  echo "  사용 가능한 타입:"
+  echo "  feat fix docs style"
+  echo "  refactor test chore design"
+  echo ""
+  exit 1
+fi
