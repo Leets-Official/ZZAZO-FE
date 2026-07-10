@@ -42,3 +42,5 @@ next-env.d.ts
 
 # husky (선택 - 로그성 파일 있을 경우)
 .husky/_/
+*storybook.log
+storybook-static
