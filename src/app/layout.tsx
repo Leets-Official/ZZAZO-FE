@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-
+import './globals.css';
 export const metadata: Metadata = {
   title: 'ZZAZO',
   description: 'ZZAZO 웹 서비스',
