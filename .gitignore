@@ -44,3 +44,6 @@ next-env.d.ts
 .husky/_/
 *storybook.log
 storybook-static
+
+# AI 코딩 도구 캐시
+.omc/
