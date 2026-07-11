@@ -3,12 +3,7 @@ import { Button } from '@/shared/ui/Button';
 
 export default function HomePage() {
   return (
-    <section className="mx-auto flex max-w-2xl flex-col items-center px-6 py-20 text-center">
-      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-p200 bg-p50 px-4 py-1.5">
-        <span className="size-1.5 rounded-full bg-p600" />
-        <span className="text-xs font-bold text-p700">가천대학교 전용 서비스</span>
-      </div>
-
+    <section className="mx-auto flex max-w-2xl flex-col items-center px-6 py-30 text-center">
       <h1 className="text-4xl font-bold leading-tight tracking-[-0.025em] text-p900 md:text-6xl">
         조건에 맞는 시간표를,
         <br />
