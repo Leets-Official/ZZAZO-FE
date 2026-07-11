@@ -1,0 +1,1 @@
+// SavedTimetable 타입
