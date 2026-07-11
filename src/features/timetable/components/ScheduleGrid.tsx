@@ -42,7 +42,21 @@ function getCourseCell(courses: Course[], day: Weekday, period: Period) {
   }
 }
 
+function getVisiblePeriods(courses: Course[]) {
+  if (courses.length === 0) {
+    return [];
+  }
+
+  const lastPeriod = Math.max(
+    ...courses.flatMap((course) => course.timeSlots.map((timeSlot) => timeSlot.endPeriod))
+  );
+
+  return PERIODS.filter((period) => period <= lastPeriod);
+}
+
 export function ScheduleGrid({ courses, className }: ScheduleGridProps) {
+  const visiblePeriods = getVisiblePeriods(courses);
+
   return (
     <section
       className={cn('rounded-md border border-s200 bg-white p-5 sm:p-8', className)}
@@ -64,8 +78,11 @@ export function ScheduleGrid({ courses, className }: ScheduleGridProps) {
             ))}
           </div>
 
-          <div className="grid grid-cols-[38px_repeat(5,1fr)] grid-rows-[repeat(6,38px)]">
-            {PERIODS.map((period) => (
+          <div
+            className="grid grid-cols-[38px_repeat(5,1fr)]"
+            style={{ gridTemplateRows: `repeat(${visiblePeriods.length}, 38px)` }}
+          >
+            {visiblePeriods.map((period) => (
               <div
                 key={`period-${period}`}
                 className="flex items-center justify-center border-r border-b border-s200 bg-s100 text-[9px] text-s400"
@@ -75,7 +92,7 @@ export function ScheduleGrid({ courses, className }: ScheduleGridProps) {
               </div>
             ))}
 
-            {PERIODS.flatMap((period) =>
+            {visiblePeriods.flatMap((period) =>
               WEEKDAYS.map((day, dayIndex) => {
                 const cell = getCourseCell(courses, day, period);
 
