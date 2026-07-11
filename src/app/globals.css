@@ -1,26 +1,70 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Primary — Indigo Violet */
+  --color-p50: #eef2ff;
+  --color-p100: #e0e7ff;
+  --color-p200: #c6d2ff;
+  --color-p300: #a5b4fc;
+  --color-p400: #818cf8;
+  --color-p500: #615fff;
+  --color-p600: #4f39f6;
+  --color-p700: #432dd7;
+  --color-p800: #312c85;
+  --color-p900: #1e1a4d;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Neutral — Slate */
+  --color-s50: #fafafa;
+  --color-s100: #f1f5f9;
+  --color-s200: #e2e8f0;
+  --color-s300: #cad5e2;
+  --color-s400: #90a1b9;
+  --color-s500: #62748e;
+  --color-s600: #45556c;
+  --color-s700: #314158;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Success */
+  --color-g50: #f0fdf4;
+  --color-g100: #dcfce7;
+  --color-g200: #d0fae5;
+  --color-g500: #00bc7d;
+  --color-g600: #00a63e;
+  --color-g700: #008236;
+  --color-g800: #007a55;
+
+  /* Warning */
+  --color-w50: #fffbeb;
+  --color-w100: #fef3c6;
+  --color-w500: #fe9a00;
+  --color-w800: #bb4d00;
+
+  /* Error */
+  --color-e50: #fef2f2;
+  --color-e400: #ff6467;
+  --color-e500: #fb2c36;
+
+  /* Info */
+  --color-i50: #dff2fe;
+  --color-i500: #00a6f4;
+  --color-i700: #0069a8;
+
+  /* Accents */
+  --color-purple500: #8e51ff;
+  --color-purple700: #7008e7;
+  --color-rose500: #ff2056;
+
+  --font-sans: var(--font-noto-sans-kr), 'Apple SD Gothic Neo', sans-serif;
+
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 0.1), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 16px rgb(79 57 246 / 0.12);
+  --shadow-lg: 0 8px 40px rgb(0 0 0 / 0.1);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-s50);
+  color: var(--color-s700);
+  font-family: var(--font-sans);
 }
