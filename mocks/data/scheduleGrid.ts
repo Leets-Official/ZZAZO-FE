@@ -39,6 +39,20 @@ export const scheduleGridCourses: Course[] = [
     ],
   },
   {
+    id: 'data-structure',
+    name: '자료\n구조',
+    category: '전공필수',
+    credit: 3,
+    timeSlots: [{ day: '금', startPeriod: 3, endPeriod: 3 }],
+  },
+  {
+    id: 'web-programming',
+    name: '웹\n프로그래밍',
+    category: '전공선택',
+    credit: 3,
+    timeSlots: [{ day: '목', startPeriod: 5, endPeriod: 5 }],
+  },
+  {
     id: 'creative-thinking',
     name: '창의적\n사고',
     category: '교양선택',
