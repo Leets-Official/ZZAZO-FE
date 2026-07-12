@@ -9,3 +9,4 @@ export const verifyEmailCode = (email: string, verificationCode: string) =>
 
 export const signup = (body: SignupRequest) => authPost<SignupResponseData>('/auth/signup', body);
 export const login = (body: LoginRequest) => authPost<LoginResponseData>('/auth/login', body);
+export const logout = (refreshToken: string) => authPost<null>('/auth/logout', { refreshToken });

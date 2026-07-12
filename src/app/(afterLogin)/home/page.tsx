@@ -1,3 +1,10 @@
-export default function HomePage() {
-  return <div>로그인 후 홈 화면입니다</div>;
+import { AuthOnly } from '@/features/auth/components/AuthOnly';
+import { DashboardContent } from './_component/DashboardContent';
+
+export default function DashboardPage() {
+  return (
+    <AuthOnly>
+      <DashboardContent />
+    </AuthOnly>
+  );
 }
