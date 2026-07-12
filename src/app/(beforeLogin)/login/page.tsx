@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Navbar } from '../_component/Navbar';
 import { LoginForm } from '@/features/auth/components/LoginForm';
-import { GuestOnly } from '@/features/auth/components/Guestonly';
+import { GuestOnly } from '@/features/auth/components/GuestOnly';
 export default function LoginPage() {
   return (
     <>
