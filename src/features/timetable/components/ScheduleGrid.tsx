@@ -1,12 +1,5 @@
 import { cn } from '@/shared/lib/cd';
-import {
-  PERIODS,
-  WEEKDAYS,
-  type Course,
-  type CourseCategory,
-  type Period,
-  type Weekday,
-} from '../type';
+import { PERIODS, WEEKDAYS, type Course, type CourseCategory } from '../type';
 
 interface ScheduleGridProps {
   courses: Course[];
@@ -14,11 +7,11 @@ interface ScheduleGridProps {
 }
 
 const CATEGORY_STYLE: Record<CourseCategory, { cell: string; bar: string }> = {
-  교양필수: { cell: 'bg-p600/[0.07] text-p800', bar: 'bg-p600' },
-  교양선택: { cell: 'bg-p600/[0.07] text-p800', bar: 'bg-p600' },
-  전공필수: { cell: 'bg-g500/[0.07] text-g800', bar: 'bg-g500' },
-  전공선택: { cell: 'bg-g500/[0.07] text-g800', bar: 'bg-g500' },
-  전공기초: { cell: 'bg-w500/[0.07] text-w800', bar: 'bg-w500' },
+  교양필수: { cell: 'bg-p600/[0.12] text-p800', bar: 'bg-p600' },
+  교양선택: { cell: 'bg-p600/[0.12] text-p800', bar: 'bg-p600' },
+  전공필수: { cell: 'bg-g500/[0.12] text-g800', bar: 'bg-g500' },
+  전공선택: { cell: 'bg-g500/[0.12] text-g800', bar: 'bg-g500' },
+  전공기초: { cell: 'bg-w500/[0.12] text-w800', bar: 'bg-w500' },
 };
 
 const LEGENDS = [
@@ -26,21 +19,6 @@ const LEGENDS = [
   { label: '전공필수 · 전공선택', bar: CATEGORY_STYLE.전공필수.bar },
   { label: '전공기초', bar: CATEGORY_STYLE.전공기초.bar },
 ];
-
-function getCourseCell(courses: Course[], day: Weekday, period: Period) {
-  for (const course of courses) {
-    const timeSlot = course.timeSlots.find(
-      (slot) => slot.day === day && slot.startPeriod <= period && period <= slot.endPeriod
-    );
-
-    if (timeSlot) {
-      return {
-        course,
-        isFirstPeriod: timeSlot.startPeriod === period,
-      };
-    }
-  }
-}
 
 function getVisiblePeriods(courses: Course[]) {
   if (courses.length === 0) {
@@ -93,39 +71,37 @@ export function ScheduleGrid({ courses, className }: ScheduleGridProps) {
             ))}
 
             {visiblePeriods.flatMap((period) =>
-              WEEKDAYS.map((day, dayIndex) => {
-                const cell = getCourseCell(courses, day, period);
+              WEEKDAYS.map((day, dayIndex) => (
+                <div
+                  key={`${day}-${period}`}
+                  className="border-b border-l border-s200 bg-white"
+                  style={{ gridColumn: dayIndex + 2, gridRow: period }}
+                  aria-label={`${day}요일 ${period}교시 공강`}
+                />
+              ))
+            )}
 
-                if (!cell) {
-                  return (
-                    <div
-                      key={`${day}-${period}`}
-                      className="border-b border-l border-s200 bg-white"
-                      style={{ gridColumn: dayIndex + 2, gridRow: period }}
-                      aria-label={`${day}요일 ${period}교시 공강`}
-                    />
-                  );
-                }
-
-                const style = CATEGORY_STYLE[cell.course.category];
+            {courses.flatMap((course) =>
+              course.timeSlots.map((timeSlot) => {
+                const dayIndex = WEEKDAYS.indexOf(timeSlot.day);
+                const rowSpan = timeSlot.endPeriod - timeSlot.startPeriod + 1;
+                const style = CATEGORY_STYLE[course.category];
 
                 return (
                   <div
-                    key={`${cell.course.id}-${day}-${period}`}
+                    key={`${course.id}-${timeSlot.day}-${timeSlot.startPeriod}`}
                     className={cn(
                       'relative flex items-center justify-center border-b border-l border-s200 px-[5px] py-[7px] text-center text-[10px] font-semibold leading-[1.3]',
                       style.cell
                     )}
                     style={{
                       gridColumn: dayIndex + 2,
-                      gridRow: period,
+                      gridRow: `${timeSlot.startPeriod} / span ${rowSpan}`,
                     }}
-                    aria-label={`${cell.course.name}, ${day}요일 ${period}교시`}
+                    aria-label={`${course.name}, ${timeSlot.day}요일 ${timeSlot.startPeriod}교시부터 ${rowSpan}교시`}
                   >
                     <span className={cn('absolute inset-y-0 left-0 w-0.5', style.bar)} />
-                    <span className="whitespace-pre-line">
-                      {cell.isFirstPeriod ? cell.course.name : '↑'}
-                    </span>
+                    <span className="whitespace-pre-line">{course.name}</span>
                   </div>
                 );
               })
