@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
+import { Providers } from './providers';
 export const metadata: Metadata = {
   title: 'ZZAZO',
   description: 'ZZAZO 웹 서비스',
@@ -15,7 +16,9 @@ const notoSansKR = Noto_Sans_KR({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={notoSansKR.variable}>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
