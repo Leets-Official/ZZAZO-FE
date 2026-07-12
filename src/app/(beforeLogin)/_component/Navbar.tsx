@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/shared/ui/Button';
+import { buttonStyle } from '@/shared/ui/Button';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { ROUTES } from '@/shared/lib/route';
 
@@ -20,23 +20,25 @@ export function Navbar({ action = 'both' }: NavbarProps) {
 
       <nav className="flex h-8 gap-2">
         {!isReady ? null : isLoggedIn ? (
-          <Link href={ROUTES.home}>
-            <Button size="sm">시간표 추천 시작</Button>
+          <Link href={ROUTES.home} className={buttonStyle('primary', 'sm')}>
+            시간표 추천 시작
           </Link>
         ) : (
           <>
             {action !== 'signup' && (
-              <Link href={ROUTES.login}>
-                <Button variant={action === 'both' ? 'secondary' : 'text'} size="sm">
-                  로그인
-                </Button>
+              <Link
+                href={ROUTES.login}
+                className={buttonStyle(action === 'both' ? 'secondary' : 'text', 'sm')}
+              >
+                로그인
               </Link>
             )}
             {action !== 'login' && (
-              <Link href={ROUTES.signup}>
-                <Button variant={action === 'both' ? 'primary' : 'text'} size="sm">
-                  회원가입
-                </Button>
+              <Link
+                href={ROUTES.signup}
+                className={buttonStyle(action === 'both' ? 'primary' : 'text', 'sm')}
+              >
+                회원가입
               </Link>
             )}
           </>

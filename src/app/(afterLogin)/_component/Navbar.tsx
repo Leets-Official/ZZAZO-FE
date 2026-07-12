@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/shared/ui/Button';
+import { Button, buttonStyle } from '@/shared/ui/Button';
 import { ROUTES } from '@/shared/lib/route';
 
 export interface NavAction {
@@ -26,10 +26,12 @@ export function Navbar({ actions = [] }: NavbarProps) {
       <nav className="flex items-center gap-2">
         {actions.map((action) =>
           action.href ? (
-            <Link key={action.label} href={action.href}>
-              <Button variant={action.variant ?? 'text'} size="sm">
-                {action.label}
-              </Button>
+            <Link
+              key={action.label}
+              href={action.href}
+              className={buttonStyle(action.variant ?? 'text', 'sm')}
+            >
+              {action.label}
             </Link>
           ) : (
             <Button

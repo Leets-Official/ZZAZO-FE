@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/shared/ui/Button';
+import { buttonStyle } from '@/shared/ui/Button';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { ROUTES } from '@/shared/lib/route';
 
@@ -13,21 +13,19 @@ export function HeroCta() {
 
   if (isLoggedIn) {
     return (
-      <Link href={ROUTES.home}>
-        <Button size="lg">시간표 추천 시작</Button>
+      <Link href={ROUTES.home} className={buttonStyle('primary', 'lg')}>
+        시간표 추천 시작
       </Link>
     );
   }
 
   return (
     <div className="flex gap-3">
-      <Link href={ROUTES.signup}>
-        <Button size="lg">회원가입</Button>
+      <Link href={ROUTES.signup} className={buttonStyle('primary', 'lg')}>
+        회원가입
       </Link>
-      <Link href={ROUTES.login}>
-        <Button variant="secondary" size="lg">
-          로그인
-        </Button>
+      <Link href={ROUTES.login} className={buttonStyle('secondary', 'lg')}>
+        로그인
       </Link>
     </div>
   );
