@@ -10,7 +10,8 @@ import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Select } from '@/shared/ui/Select';
 import { ApiError } from '@/shared/lib/apiClient';
-import { DEPARTMENTS, GRADES } from '../constants';
+import { DEPARTMENTS } from '@/shared/lib/constants';
+import { GRADES } from '../constants';
 import { sendEmailCode, verifyEmailCode, signup } from '../api/authApi';
 import { signupSchema, type SignupForm as SignupFormValues } from '../schemas';
 
