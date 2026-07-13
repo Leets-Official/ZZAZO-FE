@@ -28,7 +28,7 @@ export class ApiError extends Error {
 
 const AUTH_BASE = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/api/v1`;
 
-export async function authPost<T>(path: string, body: unknown): Promise<T | null> {
+export async function apiPost<T>(path: string, body: unknown): Promise<T | null> {
   let res: Response;
   try {
     res = await fetch(`${AUTH_BASE}${path}`, {
