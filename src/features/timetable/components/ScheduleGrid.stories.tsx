@@ -24,3 +24,38 @@ export const Empty: Story = {
     courses: [],
   },
 };
+
+export const EmptyLectureTime: Story = {
+  args: {
+    courses: [
+      {
+        lectureId: 13,
+        lectureName: '경영학원론',
+        section: '001',
+        professor: '홍길동',
+        credit: 3,
+        lectureClassification: '전공필수',
+        classroom: '가천관 000호',
+        lectureTime: [],
+      },
+    ],
+  },
+};
+
+export const Overlapped: Story = {
+  args: {
+    courses: [
+      ...scheduleGridCourses,
+      {
+        lectureId: 13,
+        lectureName: '경영학원론',
+        section: '001',
+        professor: '홍길동',
+        credit: 3,
+        lectureClassification: '전공필수',
+        classroom: '가천관 000호',
+        lectureTime: [{ dayOfWeek: 'MON', startTime: '10:30', endTime: '11:45' }],
+      },
+    ],
+  },
+};
