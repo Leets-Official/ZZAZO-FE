@@ -13,12 +13,6 @@ const DAY_LABEL: Record<DayOfWeek, string> = {
   FRI: '금',
 };
 
-const PERIOD_LABEL: Record<string, string> = {
-  '09:00-10:15': '1-2교시',
-  '10:30-11:45': '3-4교시',
-  '13:00-13:50': '3교시',
-};
-
 function formatLectureTime(course: Course) {
   const groupedTimes = course.lectureTime.reduce<Record<string, DayOfWeek[]>>(
     (acc, { dayOfWeek, startTime, endTime }) => {
@@ -30,10 +24,7 @@ function formatLectureTime(course: Course) {
   );
 
   return Object.entries(groupedTimes)
-    .map(
-      ([timeKey, days]) =>
-        `${days.map((day) => DAY_LABEL[day]).join('·')} ${PERIOD_LABEL[timeKey] ?? timeKey}`
-    )
+    .map(([timeKey, days]) => `${days.map((day) => DAY_LABEL[day]).join('·')} ${timeKey}`)
     .join(', ');
 }
 
