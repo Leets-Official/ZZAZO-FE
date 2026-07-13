@@ -1,5 +1,6 @@
+// src/shared/ui/Button.tsx
 import type { ButtonHTMLAttributes } from 'react';
-import { cn } from '../lib/cd';
+import { cn } from '@/shared/lib/cd';
 
 type Variant = 'primary' | 'secondary' | 'text' | 'danger';
 type Size = 'lg' | 'md' | 'sm';
@@ -17,22 +18,22 @@ const SIZE: Record<Size, string> = {
   sm: 'h-8 px-3.5 text-xs font-semibold',
 };
 
+/** Link 등 다른 요소에 버튼 스타일을 입힐 때 사용 */
+export function buttonStyle(variant: Variant = 'primary', size: Size = 'md', className?: string) {
+  return cn(
+    'inline-flex items-center justify-center rounded-sm transition-all',
+    'disabled:opacity-42 disabled:pointer-events-none',
+    VARIANT[variant],
+    SIZE[size],
+    className
+  );
+}
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
 }
 
 export function Button({ variant = 'primary', size = 'md', className, ...props }: ButtonProps) {
-  return (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center rounded-sm transition-all',
-        'disabled:opacity-42 disabled:pointer-events-none',
-        VARIANT[variant],
-        SIZE[size],
-        className
-      )}
-      {...props}
-    />
-  );
+  return <button className={buttonStyle(variant, size, className)} {...props} />;
 }
