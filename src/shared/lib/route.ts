@@ -4,5 +4,6 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   timetable: '/timetable/condition',
+  timetableResult: '/timetable/result',
   saved: '/saved',
 } as const;
