@@ -1,128 +1,61 @@
 import { cn } from '@/shared/lib/cd';
-import { PERIODS, WEEKDAYS, type Course, type CourseCategory } from '../type';
+import { type Course } from '../type';
+import { LEGENDS } from './ScheduleGrid.config';
+import { ScheduleGridTable } from './ScheduleGridTable';
+import {
+  getScheduleItems,
+  getTimeLabels,
+  getTimeRows,
+  hasOverlappedScheduleItems,
+} from './ScheduleGrid.utils';
 
 interface ScheduleGridProps {
   courses: Course[];
   className?: string;
 }
 
-const CATEGORY_STYLE: Record<CourseCategory, { cell: string; bar: string }> = {
-  교양필수: { cell: 'bg-p600/[0.12] text-p800', bar: 'bg-p600' },
-  교양선택: { cell: 'bg-p600/[0.12] text-p800', bar: 'bg-p600' },
-  전공필수: { cell: 'bg-g500/[0.12] text-g800', bar: 'bg-g500' },
-  전공선택: { cell: 'bg-g500/[0.12] text-g800', bar: 'bg-g500' },
-  전공기초: { cell: 'bg-w500/[0.12] text-w800', bar: 'bg-w500' },
-};
-
-const LEGENDS = [
-  { label: '교양필수 · 교양선택', bar: CATEGORY_STYLE.교양필수.bar },
-  { label: '전공필수 · 전공선택', bar: CATEGORY_STYLE.전공필수.bar },
-  { label: '전공기초', bar: CATEGORY_STYLE.전공기초.bar },
-];
-
-function getVisiblePeriods(courses: Course[]) {
-  if (courses.length === 0) {
-    return [];
-  }
-
-  const lastPeriod = Math.max(
-    ...courses.flatMap((course) => course.timeSlots.map((timeSlot) => timeSlot.endPeriod))
-  );
-
-  return PERIODS.filter((period) => period <= lastPeriod);
-}
-
 export function ScheduleGrid({ courses, className }: ScheduleGridProps) {
-  const visiblePeriods = getVisiblePeriods(courses);
+  const scheduleItems = getScheduleItems(courses);
+  const rowCount =
+    scheduleItems.length > 0
+      ? getTimeRows(Math.max(...scheduleItems.map((item) => item.endMinutes)))
+      : 0;
+  const timeLabels = getTimeLabels(rowCount);
+  const hasDisplayableLectureTime = scheduleItems.length > 0;
+  const hasOverlappedLectureTime = hasOverlappedScheduleItems(scheduleItems);
 
   return (
     <section
       className={cn('rounded-md border border-s200 bg-white p-5 sm:p-8', className)}
       aria-label="시간표"
     >
-      <div className="overflow-x-auto">
-        <div className="min-w-[400px] overflow-hidden rounded-sm border border-s200">
-          <div className="grid grid-cols-[38px_repeat(5,1fr)] bg-p50 text-[11px] font-bold text-p600">
-            <div className="flex min-h-[38px] items-center justify-center border-r border-b border-s200 bg-s100 text-[9px] font-medium text-s400">
-              교시
-            </div>
-            {WEEKDAYS.map((day) => (
-              <div
-                key={day}
-                className="flex min-h-[38px] items-center justify-center border-b border-l border-s200"
-              >
-                {day}
-              </div>
-            ))}
-          </div>
+      <ScheduleGridTable
+        scheduleItems={scheduleItems}
+        rowCount={rowCount}
+        timeLabels={timeLabels}
+      />
 
-          <div
-            className="grid grid-cols-[38px_repeat(5,1fr)]"
-            style={{ gridTemplateRows: `repeat(${visiblePeriods.length}, 38px)` }}
-          >
-            {visiblePeriods.map((period) => (
-              <div
-                key={`period-${period}`}
-                className="flex items-center justify-center border-r border-b border-s200 bg-s100 text-[9px] text-s400"
-                style={{ gridColumn: 1, gridRow: period }}
-              >
-                {period}
-              </div>
-            ))}
-
-            {visiblePeriods.flatMap((period) =>
-              WEEKDAYS.map((day, dayIndex) => (
-                <div
-                  key={`${day}-${period}`}
-                  className="border-b border-l border-s200 bg-white"
-                  style={{ gridColumn: dayIndex + 2, gridRow: period }}
-                  aria-label={`${day}요일 ${period}교시 공강`}
-                />
-              ))
-            )}
-
-            {courses.flatMap((course) =>
-              course.timeSlots.map((timeSlot) => {
-                const dayIndex = WEEKDAYS.indexOf(timeSlot.day);
-                const rowSpan = timeSlot.endPeriod - timeSlot.startPeriod + 1;
-                const style = CATEGORY_STYLE[course.category];
-
-                return (
-                  <div
-                    key={`${course.id}-${timeSlot.day}-${timeSlot.startPeriod}`}
-                    className={cn(
-                      'relative flex items-center justify-center border-b border-l border-s200 px-[5px] py-[7px] text-center text-[10px] font-semibold leading-[1.3]',
-                      style.cell
-                    )}
-                    style={{
-                      gridColumn: dayIndex + 2,
-                      gridRow: `${timeSlot.startPeriod} / span ${rowSpan}`,
-                    }}
-                    aria-label={`${course.name}, ${timeSlot.day}요일 ${timeSlot.startPeriod}교시부터 ${rowSpan}교시`}
-                  >
-                    <span className={cn('absolute inset-y-0 left-0 w-0.5', style.bar)} />
-                    <span className="whitespace-pre-line">{course.name}</span>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
-      </div>
-
-      {courses.length === 0 ? (
+      {!hasDisplayableLectureTime ? (
         <p className="mt-5 rounded-sm bg-s100 px-4 py-3 text-sm font-medium text-s500">
           표시할 수업이 없습니다.
         </p>
       ) : (
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-          {LEGENDS.map(({ label, bar }) => (
-            <div key={label} className="flex items-center gap-2 text-xs font-semibold text-s500">
-              <span className={cn('h-4 w-1 rounded-full', bar)} />
-              {label}
-            </div>
-          ))}
-        </div>
+        <>
+          {hasOverlappedLectureTime && (
+            <p className="mt-5 rounded-sm bg-e50 px-4 py-3 text-sm font-medium text-e500">
+              같은 시간대에 겹치는 수업이 있습니다.
+            </p>
+          )}
+
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+            {LEGENDS.map(({ label, bar }) => (
+              <div key={label} className="flex items-center gap-2 text-xs font-semibold text-s500">
+                <span className={cn('h-4 w-1 rounded-full', bar)} />
+                {label}
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </section>
   );
