@@ -1,1 +1,4 @@
-// 저장/조회/삭제 API
+import { apiGet } from '@/shared/lib/apiClient';
+import type { SavedTimetableListData } from '../type';
+
+export const getSavedTimetables = () => apiGet<SavedTimetableListData>('/timetables');
