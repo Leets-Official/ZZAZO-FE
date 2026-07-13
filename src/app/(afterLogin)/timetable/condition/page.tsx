@@ -1,3 +1,10 @@
+import { AuthOnly } from '@/features/auth/components/AuthOnly';
+import { ConditionContent } from './_component/ConditionContent';
+
 export default function TimetableConditionPage() {
-  return <div>시간표 추천 조건 입력 화면입니다</div>;
+  return (
+    <AuthOnly>
+      <ConditionContent />
+    </AuthOnly>
+  );
 }
