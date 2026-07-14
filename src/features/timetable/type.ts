@@ -1,4 +1,5 @@
-export type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+export const DAYS_OF_WEEK = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] as const;
+export type DayOfWeek = (typeof DAYS_OF_WEEK)[number];
 
 export type LectureClassification =
   'MAJOR_REQUIREMENT' | 'MAJOR_ELECTIVE' | 'LIBERAL_REQUIREMENT' | 'LIBERAL_ELECTIVE';
