@@ -10,8 +10,17 @@ interface MockUser {
 }
 
 // 목 전용 인메모리 사용자 저장소. 서버 재시작(tsx watch 재시작) 시 초기화된다.
-const users: MockUser[] = [];
+let users: MockUser[] = [];
 let nextUserId = 1;
+const emailVerificationCodes = new Map<string, string>();
+const MOCK_VERIFICATION_CODE = '123456';
+
+// 테스트/스토리 사이에 상태를 초기화하고 싶을 때 호출한다. 평소 요청 처리에는 영향 없음.
+export function resetMockAuthStore() {
+  users = [];
+  nextUserId = 1;
+  emailVerificationCodes.clear();
+}
 
 function envelope<T>(data: T) {
   return { isSuccess: true, code: 'COMMON_200_1', message: '요청 응답 성공', data };
@@ -22,11 +31,22 @@ function errorEnvelope(code: string, message: string) {
 }
 
 export const authHandlers = [
-  http.post('/api/v1/auth/email/send', () => {
+  http.post('/api/v1/auth/email/send', async ({ request }) => {
+    const body = (await request.json()) as { email: string };
+    emailVerificationCodes.set(body.email, MOCK_VERIFICATION_CODE);
     return HttpResponse.json(envelope(null));
   }),
 
-  http.post('/api/v1/auth/email/verify', () => {
+  http.post('/api/v1/auth/email/verify', async ({ request }) => {
+    const body = (await request.json()) as { email: string; verificationCode: string };
+    const expected = emailVerificationCodes.get(body.email);
+
+    if (!body.verificationCode || !expected || expected !== body.verificationCode) {
+      return HttpResponse.json(errorEnvelope('AUTH_400_1', '인증 코드가 올바르지 않습니다.'), {
+        status: 400,
+      });
+    }
+
     return HttpResponse.json(envelope(null));
   }),
 
