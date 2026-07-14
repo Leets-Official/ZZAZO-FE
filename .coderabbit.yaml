@@ -57,9 +57,11 @@ reviews:
         - 이 프로젝트는 Testing Library가 아니라 Storybook + @storybook/addon-vitest를 사용합니다.
         - `.test.tsx` + render() 패턴이 없다고 지적하지 마세요. 대신 `.stories.tsx`가 있는지 확인합니다.
 
-        ## 의존성
-        - 새 UI/아이콘 라이브러리를 사전 확인 없이 추가했다면 지적합니다.
-        - npm/yarn 스크립트나 lockfile 변경은 지적합니다. 이 프로젝트는 pnpm만 사용합니다.
+    - path: 'package.json'
+      instructions: |
+        - 이 프로젝트는 pnpm만 사용합니다. npm/yarn 관련 스크립트나 설정이 추가되면 지적합니다.
+        - 새 UI 라이브러리, 아이콘 라이브러리 등 프로젝트에서 결정되지 않은 의존성이 사전 확인 없이 추가되었다면 지적합니다.
+        - 의존성 추가 시 dependencies / devDependencies 구분이 적절한지 확인합니다.
 
 chat:
   auto_reply: true
