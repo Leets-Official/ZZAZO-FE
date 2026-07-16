@@ -3,11 +3,6 @@ import { TimetableDetail } from '@/features/timetable/components/TimetableDetail
 import { getTimetableCandidateMock } from '../../../../mocks/data/timetableCandidates';
 
 const candidate = getTimetableCandidateMock('1');
-const scheduleGridPlaceholder = (
-  <div className="flex min-h-60 items-center justify-center rounded-sm border border-dashed border-s300 bg-white text-sm font-semibold text-s500">
-    ScheduleGrid 영역
-  </div>
-);
 
 const meta = {
   title: 'Timetable/TimetableDetail',
@@ -31,6 +26,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     candidate: candidate!,
-    scheduleGrid: scheduleGridPlaceholder,
   },
 };

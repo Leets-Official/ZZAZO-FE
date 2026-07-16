@@ -1,0 +1,111 @@
+language: ko-KR
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - develop
+
+  path_filters:
+    - '!pnpm-lock.yaml'
+    - '!.coderabbit.yaml'
+
+  # 커밋 시 Husky + lint-staged로 ESLint/Prettier를 이미 실행하므로 중복 제거
+  tools:
+    eslint:
+      enabled: false
+
+  # React 컴포넌트에 JSDoc을 강제하지 않음
+  pre_merge_checks:
+    docstrings:
+      mode: off
+
+  path_instructions:
+    - path: 'src/**/*.{ts,tsx}'
+      instructions: |
+        ZZAZO는 가천대학교 수강신청 보조 서비스의 Next.js 16(App Router) + React 19 프론트엔드입니다.
+        3인 팀이 화면을 나눠 개발합니다.
+
+        ## 핵심 원칙
+        - 단순함을 우선합니다. 요청 범위를 벗어난 리팩터링, 과도한 추상화, 사용하지 않는 설정 가능성을 추가하는 코드는 지적합니다.
+        - "나중에 필요할 수도 있어서" 미리 만든 prop, variant, 유틸은 지적합니다.
+        - 기존 코드 스타일과 파일 위치 관례를 따르는지 확인합니다.
+
+        ## 파일명
+        - 컴포넌트 파일은 PascalCase(GuestOnly.tsx), 그 외는 camelCase(apiClient.ts)입니다.
+        - 대소문자가 어긋난 파일명(Guestonly.tsx)은 반드시 지적합니다. Windows에서는 문제가 없지만 Vercel(Linux) 빌드에서 "Module not found"로 실패합니다.
+        - import 경로의 대소문자가 실제 파일명과 일치하는지 확인합니다.
+
+        ## 아키텍처
+        - `src/app`: 라우트 전용. `(beforeLogin)`, `(afterLogin)` 라우트 그룹으로 인증 여부를 분리합니다.
+        - `_component`: 해당 라우트 세그먼트에서만 쓰는 컴포넌트. 2곳 이상에서 쓰이면 `features` 또는 `shared`로 옮겨야 합니다.
+        - `src/features/{domain}`: 도메인별 기능 단위(auth, timetable, saved-timetable). 각 도메인은 api/, components/, hooks/, type.ts, schemas.ts로 구성됩니다.
+        - `src/shared/ui`, `src/shared/lib`, `src/shared/constants`: 도메인에 묶이지 않는 전역 재사용 코드.
+        - 서로 다른 feature 도메인 간 직접 import는 지적합니다. 공유가 필요하면 `src/shared`로 옮겨야 합니다.
+        - `src/api`, `src/services`, `src/views`, `src/pages` 같은 새 최상위 구조를 만들었다면 지적합니다.
+        - import는 `@/*` alias를 사용합니다. 같은 폴더 안의 파일은 상대 import를 우선합니다.
+
+        ## 팀 공용 영역 (변경 시 영향 범위를 반드시 짚어주세요)
+        - `src/shared/**`, `src/app/layout.tsx`, `src/app/globals.css`, `src/app/(afterLogin)/_component/**`
+        - 이 파일들이 변경되었다면, 다른 담당자의 화면에 영향이 있는지 리뷰 코멘트에서 언급합니다.
+        - `src/shared/ui`에 새 컴포넌트를 추가했다면, 실제로 2곳 이상에서 쓰이는지 확인합니다.
+
+        ## 데이터 패칭
+        - 서버 상태는 TanStack Query를 사용합니다. useState+useEffect로 직접 fetch하는 코드는 지적합니다.
+        - 한 컴포넌트에서만 쓰는 1회성 mutation/query는 컴포넌트 안에 인라인으로 둬도 됩니다.
+        - 폼은 React Hook Form + Zod로 구성합니다.
+        - 전역 클라이언트 상태는 Zustand를 사용합니다. 서버 데이터를 Zustand로 복제하는 코드는 지적합니다.
+        - API raw request 함수는 `src/features/{domain}/api/`에 두고 React나 TanStack Query를 import하지 않아야 합니다.
+        - 공통 fetch 로직은 `src/shared/lib/apiClient.ts`를 통해야 합니다. 백엔드 응답은 `{ isSuccess, code, message, data }` envelope입니다.
+        - Swagger 확인 없이 endpoint path, request body, response shape를 추측한 코드는 지적합니다.
+        - 새 환경변수(`process.env.NEXT_PUBLIC_*`)를 사용했다면 지적합니다. `.env.local`은 커밋되지 않으므로, PR 본문에 변수명과 값을 명시하지 않으면 다른 팀원의 로컬이 동작하지 않습니다.
+
+        ## 인증
+        - 로그인 여부 판단은 `features/auth/hooks/useAuth`만 사용합니다. `useAuthStore`에서 accessToken을 직접 읽어 UI를 분기하는 코드는 지적합니다.
+        - 토큰이 필요한 요청은 `apiClient`를 통해야 합니다. fetch에 Authorization 헤더를 직접 붙이는 코드는 지적합니다.
+
+        ## 컴포넌트
+        - 색상·radius·shadow는 `globals.css`의 @theme 토큰(bg-p600, text-s700 등)을 사용해야 합니다. 하드코딩된 hex, rgba는 지적합니다.
+        - <Link> 안에 <button>이나 <Link>를 중첩하면 안 됩니다. HTML 명세 위반이며 탭 스톱이 중복되고 스크린리더에서 이중 안내됩니다. 페이지 이동은 <Link>에 buttonStyle()을 적용합니다.
+        - 시각 variant는 boolean prop 남발 대신 Record<Variant, string> 맵으로 관리합니다.
+        - 컴포넌트는 className prop을 노출하고 cn(...)으로 병합해야 합니다.
+        - 데이터 기반 화면은 loading, empty, error 상태를 분리해야 합니다.
+        - Zustand persist는 hydration 전에 값이 비어 있습니다. 복원 완료 여부(hasHydrated)를 확인하지 않고 렌더하면 화면이 깜빡이거나 잘못 리다이렉트됩니다.
+        - 접근성: 의미 있는 button/label을 사용하고, 토글형 UI는 aria-pressed, 그룹 UI는 role="group"을 확인합니다.
+        - 반응형: 데스크톱 전용 레이아웃(고정 폭, 다열 그리드)에 모바일 대응이 있는지 확인합니다.
+
+        ## TypeScript
+        - 명시적 any를 피합니다. 형태를 모르면 unknown에서 좁혀야 합니다.
+        - 백엔드 응답 타입은 Swagger 스펙과 필드명·타입이 정확히 일치해야 합니다.
+
+        ## 날짜/시간
+        - 백엔드가 주는 날짜 문자열("2026-07-10T12:00:00")은 타임존 정보가 없습니다. new Date()로 파싱하면 브라우저 로컬 타임존에 따라 날짜가 밀릴 수 있으므로, 단순 표시 용도라면 문자열을 그대로 다루는 편이 안전합니다.
+
+        ## 테스트
+        - 이 프로젝트는 Testing Library가 아니라 Storybook + @storybook/addon-vitest를 사용합니다.
+        - `.test.tsx` + render() 패턴이 없다고 지적하지 마세요. 대신 `.stories.tsx`가 있는지 확인합니다.
+        - shared/ui의 새 컴포넌트는 스토리가 있어야 합니다. 페이지 컴포넌트는 스토리를 요구하지 마세요.
+
+    - path: 'mocks/**/*.ts'
+      instructions: |
+        MSW 기반 mock 서버입니다. `pnpm dev:mock` 실행 시 localhost:9090에서 동작하며, 백엔드 API가 준비되지 않은 화면을 개발할 때 사용합니다.
+
+        - mock 응답은 Swagger 실제 스펙과 일치해야 합니다. 필드명, 타입, envelope(`{ isSuccess, code, message, data }`) 구조가 다르면 지적합니다.
+        - 핸들러는 도메인별 파일(handlers/auth.ts, handlers/timetable.ts)로 분리합니다. 여러 담당자가 같은 파일을 수정하지 않도록 하기 위함입니다.
+        - mock 데이터는 실제로 있을 법한 값이어야 합니다. 백엔드가 주지 않을 형태(예: 문자열에 개행 문자를 넣어 줄바꿈)는 지적합니다.
+
+    - path: 'package.json'
+      instructions: |
+        - 이 프로젝트는 pnpm만 사용합니다. npm/yarn 관련 스크립트나 설정이 추가되면 지적합니다.
+        - 새 UI 라이브러리, 아이콘 라이브러리 등 프로젝트에서 결정되지 않은 의존성이 사전 확인 없이 추가되었다면 지적합니다.
+        - 의존성 추가 시 dependencies / devDependencies 구분이 적절한지 확인합니다.
+
+chat:
+  auto_reply: true

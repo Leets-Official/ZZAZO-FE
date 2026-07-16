@@ -1,15 +1,14 @@
-import type { ReactNode } from 'react';
 import { CourseTable } from '@/features/timetable/components/CourseTable';
+import { ScheduleGrid } from '@/features/timetable/components/ScheduleGrid';
 import type { TimetableCandidate } from '@/features/timetable/type';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
 
 interface TimetableDetailProps {
   candidate: TimetableCandidate;
-  scheduleGrid?: ReactNode;
 }
 
-export function TimetableDetail({ candidate, scheduleGrid }: TimetableDetailProps) {
+export function TimetableDetail({ candidate }: TimetableDetailProps) {
   return (
     <section className="mx-auto w-full overflow-hidden rounded-md border border-s200 bg-s50 shadow-lg">
       <div className="flex items-center justify-between border-b border-s200 bg-white px-6 py-5 sm:px-8">
@@ -30,7 +29,7 @@ export function TimetableDetail({ candidate, scheduleGrid }: TimetableDetailProp
         </div>
 
         <div className="space-y-5">
-          {scheduleGrid}
+          <ScheduleGrid courses={candidate.courses} />
           <CourseTable courses={candidate.courses} />
           <Button type="button" size="lg" className="h-14 w-full text-lg">
             저장하기

@@ -1,10 +1,16 @@
+export const WEEKDAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI'] as const;
+
+export type Weekday = (typeof WEEKDAYS)[number];
+
+export type DayOfWeek = Weekday;
+
 export type CourseType =
   '전공기초' | '교양필수' | '교양선택' | '전공필수' | '전공선택' | '일반선택';
 
-export type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI';
+export type CourseCategory = CourseType;
 
 export interface LectureTime {
-  dayOfWeek: DayOfWeek;
+  dayOfWeek: Weekday;
   startTime: string;
   endTime: string;
 }
@@ -18,6 +24,13 @@ export interface Course {
   lectureClassification: CourseType;
   classroom: string;
   lectureTime: LectureTime[];
+}
+
+export interface Timetable {
+  id: string;
+  title: string;
+  totalCredit: number;
+  courses: Course[];
 }
 
 export interface TimetableCandidate {
