@@ -1,6 +1,5 @@
 'use client';
-
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Navbar } from '../../../_component/Navbar';
 import { ScheduleGrid } from '@/features/timetable/components/ScheduleGrid';
 import { useSavedTimetableDetail } from '@/features/saved-timetable/hooks/useSavedTimetableDetail';
@@ -10,7 +9,6 @@ import { Button, buttonStyle } from '@/shared/ui/Button';
 import { ROUTES } from '@/shared/lib/route';
 
 export function SavedDetailContent({ id }: { id: number }) {
-  const router = useRouter();
   const { data, isPending, isError, error } = useSavedTimetableDetail(id);
 
   const notFound = isError && (error as { status?: number })?.status === 404;
@@ -54,13 +52,9 @@ export function SavedDetailContent({ id }: { id: number }) {
               <Button variant="danger" size="lg" className="flex-1">
                 삭제하기
               </Button>
-              <button
-                type="button"
-                onClick={() => router.push(ROUTES.saved)}
-                className={buttonStyle('primary', 'lg', 'flex-1')}
-              >
+              <Link href={ROUTES.saved} className={buttonStyle('primary', 'lg', 'flex-1')}>
                 목록으로 돌아가기
-              </button>
+              </Link>
             </div>
           </>
         )}
