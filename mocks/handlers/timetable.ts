@@ -35,4 +35,21 @@ export const timetableHandlers = [
       data: detail,
     });
   }),
+
+  http.delete(`${BASE}/timetables/:timetableId`, ({ params }) => {
+    const id = Number(params.timetableId);
+    if (!savedTimetableDetails[id]) {
+      return HttpResponse.json(
+        {
+          isSuccess: false,
+          code: 'TIMETABLE_404_1',
+          message: '시간표를 찾을 수 없습니다.',
+          data: null,
+        },
+        { status: 404 }
+      );
+    }
+    // 204 No Content
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];
