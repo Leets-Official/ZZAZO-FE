@@ -10,7 +10,7 @@ export const savedTimetableDetails: Record<number, SavedTimetableDetail> = {
     preferredFreeDays: ['FRI', 'WED'],
     targetCredits: 18,
     selectedLectureIds: [13, 17],
-    totalCredits: 20,
+    totalCredits: 6,
     requirementCheck: {
       targetCreditSatisfied: true,
       requiredCourseIncluded: true,
@@ -55,7 +55,7 @@ export const savedTimetableDetails: Record<number, SavedTimetableDetail> = {
     preferredFreeDays: ['MON'],
     targetCredits: 18,
     selectedLectureIds: [21, 22, 23],
-    totalCredits: 18,
+    totalCredits: 9,
     requirementCheck: {
       targetCreditSatisfied: true,
       requiredCourseIncluded: true,
