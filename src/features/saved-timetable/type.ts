@@ -1,3 +1,5 @@
+import type { Course } from '@/features/timetable/type';
+
 /** GET /timetables 목록 항목 (상세와 필드가 다름) */
 export interface SavedTimetableSummary {
   timetableId: number;
@@ -10,4 +12,25 @@ export interface SavedTimetableSummary {
 
 export interface SavedTimetableListData {
   timetables: SavedTimetableSummary[];
+}
+
+export interface RequirementCheck {
+  targetCreditSatisfied: boolean;
+  requiredCourseIncluded: boolean;
+  foundationCourseIncluded: boolean;
+  generalEducationIncluded: boolean;
+}
+
+export interface SavedTimetableDetail {
+  timetableId: number;
+  candidateName: string;
+  departmentId: number;
+  semester: number;
+  grade: number;
+  preferredFreeDays: string[];
+  targetCredits: number;
+  selectedLectureIds: number[];
+  totalCredits: number;
+  requirementCheck: RequirementCheck;
+  courses: Course[];
 }
