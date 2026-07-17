@@ -1,3 +1,12 @@
-export default function SavedDetailPage({ params }: { params: { id: string } }) {
-  return <div>저장한 시간표 상세 화면입니다 ({params.id}번)</div>;
+import { AuthOnly } from '@/features/auth/components/AuthOnly';
+import { SavedDetailContent } from './_component/SavedDetailContent';
+
+export default async function SavedDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
+  return (
+    <AuthOnly>
+      <SavedDetailContent id={Number(id)} />
+    </AuthOnly>
+  );
 }
