@@ -8,3 +8,7 @@ export const DEPARTMENTS = [
   { id: 2, name: '컴퓨터공학과' },
   { id: 3, name: '전자공학과' },
 ] as const;
+
+export function getDepartmentName(id: number): string {
+  return DEPARTMENTS.find((d) => d.id === id)?.name ?? '알 수 없는 학과';
+}

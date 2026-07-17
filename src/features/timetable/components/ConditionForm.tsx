@@ -12,7 +12,7 @@ import { Select } from '@/shared/ui/Select';
 import { LoadingOverlay } from '@/shared/ui/LoadingOverlay';
 import { ApiError } from '@/shared/lib/apiClient';
 import { ROUTES } from '@/shared/lib/route';
-import { DEPARTMENTS } from '@/shared/lib/constants';
+import { DEPARTMENTS } from '@/shared/constants/department';
 import { recommendTimetable } from '../api/timetableApi';
 import { conditionSchema, type ConditionForm as ConditionFormValues } from '../schemas';
 import { FreeDayChips } from './FreeDayChips';

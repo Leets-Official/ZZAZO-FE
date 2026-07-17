@@ -1,0 +1,107 @@
+import type { SavedTimetableDetail } from '@/features/saved-timetable/type';
+
+export const savedTimetableDetails: Record<number, SavedTimetableDetail> = {
+  1: {
+    timetableId: 1,
+    candidateName: '공강 조건 중심 시간표',
+    departmentId: 2,
+    semester: 2,
+    grade: 3,
+    preferredFreeDays: ['FRI', 'WED'],
+    targetCredits: 18,
+    selectedLectureIds: [13, 17],
+    totalCredits: 6,
+    requirementCheck: {
+      targetCreditSatisfied: true,
+      requiredCourseIncluded: true,
+      foundationCourseIncluded: true,
+      generalEducationIncluded: false,
+    },
+    courses: [
+      {
+        lectureId: 13,
+        lectureName: '경영학원론',
+        section: '001',
+        professor: '홍길동',
+        credit: 3,
+        lectureClassification: '전공필수',
+        classroom: '가천관 000호',
+        lectureTime: [
+          { startTime: '10:30', endTime: '11:45', dayOfWeek: 'MON' },
+          { startTime: '10:30', endTime: '11:45', dayOfWeek: 'WED' },
+        ],
+      },
+      {
+        lectureId: 17,
+        lectureName: '자료구조',
+        section: '002',
+        professor: '김영희',
+        credit: 3,
+        lectureClassification: '전공기초',
+        classroom: 'IT관 502호',
+        lectureTime: [
+          { startTime: '13:00', endTime: '14:15', dayOfWeek: 'TUE' },
+          { startTime: '13:00', endTime: '14:15', dayOfWeek: 'THU' },
+        ],
+      },
+    ],
+  },
+  2: {
+    timetableId: 2,
+    candidateName: '전공 집중형 시간표',
+    departmentId: 2,
+    semester: 2,
+    grade: 3,
+    preferredFreeDays: ['MON'],
+    targetCredits: 18,
+    selectedLectureIds: [21, 22, 23],
+    totalCredits: 9,
+    requirementCheck: {
+      targetCreditSatisfied: true,
+      requiredCourseIncluded: true,
+      foundationCourseIncluded: true,
+      generalEducationIncluded: true,
+    },
+    courses: [
+      {
+        lectureId: 21,
+        lectureName: '운영체제',
+        section: '001',
+        professor: '박철수',
+        credit: 3,
+        lectureClassification: '전공필수',
+        classroom: 'IT관 401호',
+        lectureTime: [
+          { startTime: '09:00', endTime: '10:15', dayOfWeek: 'TUE' },
+          { startTime: '09:00', endTime: '10:15', dayOfWeek: 'THU' },
+        ],
+      },
+      {
+        lectureId: 22,
+        lectureName: '알고리즘',
+        section: '001',
+        professor: '이지은',
+        credit: 3,
+        lectureClassification: '전공선택',
+        classroom: 'IT관 305호',
+        lectureTime: [
+          { startTime: '13:00', endTime: '14:15', dayOfWeek: 'WED' },
+          { startTime: '13:00', endTime: '14:15', dayOfWeek: 'FRI' },
+        ],
+      },
+      {
+        lectureId: 23,
+        lectureName: '컴퓨터네트워크',
+        section: '002',
+        professor: '최민호',
+        credit: 3,
+        lectureClassification: '전공선택',
+        classroom: 'IT관 210호',
+        lectureTime: [
+          { startTime: '15:00', endTime: '16:15', dayOfWeek: 'TUE' },
+          { startTime: '15:00', endTime: '16:15', dayOfWeek: 'THU' },
+        ],
+      },
+    ],
+  },
+};
