@@ -13,9 +13,9 @@ export function TimetableDetail({ candidate }: TimetableDetailProps) {
     <section className="mx-auto w-full overflow-hidden rounded-md border border-s200 bg-s50 shadow-lg">
       <div className="flex items-center justify-between border-b border-s200 bg-white px-6 py-5 sm:px-8">
         <span className="text-lg font-black tracking-[6px] text-p600">ZZAZO</span>
-        <a href="#" className="text-sm font-semibold text-p600 hover:text-p700">
+        <Button type="button" variant="text" size="sm" disabled>
           피드백 남기기
-        </a>
+        </Button>
       </div>
 
       <div className="p-6 sm:p-8">
@@ -31,7 +31,7 @@ export function TimetableDetail({ candidate }: TimetableDetailProps) {
         <div className="space-y-5">
           <ScheduleGrid courses={candidate.courses} />
           <CourseTable courses={candidate.courses} />
-          <Button type="button" size="lg" className="h-14 w-full text-lg">
+          <Button type="button" size="lg" className="h-14 w-full text-lg" disabled>
             저장하기
           </Button>
         </div>

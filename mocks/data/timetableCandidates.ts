@@ -5,7 +5,7 @@ export const timetableCandidates: TimetableCandidate[] = [
     id: 1,
     title: '후보 01',
     label: '균형형',
-    totalCredit: 17,
+    totalCredit: 8,
     courses: [
       {
         lectureId: 1,
