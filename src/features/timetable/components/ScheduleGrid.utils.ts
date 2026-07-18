@@ -48,7 +48,7 @@ export function getScheduleItems(courses: Course[]) {
   return courses
     .flatMap((course) =>
       course.lectureTime.map((lectureTime) => {
-        const dayIndex = WEEKDAYS.indexOf(lectureTime.dayOfWeek);
+        const dayIndex = (WEEKDAYS as readonly string[]).indexOf(lectureTime.dayOfWeek);
         const startMinutes = parseTimeToMinutes(lectureTime.startTime);
         const endMinutes = parseTimeToMinutes(lectureTime.endTime);
 

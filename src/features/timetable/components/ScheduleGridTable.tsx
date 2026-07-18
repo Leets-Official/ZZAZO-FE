@@ -1,5 +1,5 @@
 import { cn } from '@/shared/lib/cd';
-import { WEEKDAYS } from '../type';
+import { WEEKDAYS, type Weekday } from '../type';
 import {
   CATEGORY_STYLE,
   DAY_LABELS,
@@ -91,9 +91,9 @@ export function ScheduleGridTable({ scheduleItems, rowCount, timeLabels }: Sched
                   gridColumn: dayIndex + 2,
                   gridRow: `${getTimeRows(startMinutes) + 1} / span ${rowSpan}`,
                 }}
-                aria-label={`${course.lectureName}, ${DAY_LABELS[lectureTime.dayOfWeek]}요일 ${
-                  lectureTime.startTime
-                }부터 ${lectureTime.endTime}까지`}
+                aria-label={`${course.lectureName}, ${
+                  DAY_LABELS[lectureTime.dayOfWeek as Weekday]
+                }요일 ${lectureTime.startTime}부터 ${lectureTime.endTime}까지`}
               >
                 <span className={cn('absolute inset-y-0 left-0 w-0.5', style.bar)} />
                 <span className="overflow-hidden break-keep">{course.lectureName}</span>
