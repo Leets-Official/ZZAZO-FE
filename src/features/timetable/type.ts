@@ -30,7 +30,7 @@ export interface Course {
   section: string;
   professor: string;
   credit: number;
-  lectureClassification: CourseCategory;
+  lectureClassification: CourseType;
   classroom: string;
   lectureTime: LectureTime[];
 }
@@ -38,6 +38,14 @@ export interface Course {
 export interface Timetable {
   id: string;
   title: string;
+  totalCredit: number;
+  courses: Course[];
+}
+
+export interface TimetableCandidate {
+  id: number;
+  title: string;
+  label: string;
   totalCredit: number;
   courses: Course[];
 }
