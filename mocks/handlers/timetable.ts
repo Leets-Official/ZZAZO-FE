@@ -38,6 +38,7 @@ export const timetableHandlers = [
 
   http.delete(`${BASE}/timetables/:timetableId`, ({ params }) => {
     const id = Number(params.timetableId);
+
     if (!savedTimetableDetails[id]) {
       return HttpResponse.json(
         {
@@ -49,7 +50,12 @@ export const timetableHandlers = [
         { status: 404 }
       );
     }
-    // 204 No Content
+
+    // mock 저장소에서도 제거해 이후 조회/재삭제가 404가 되도록 한다
+    delete savedTimetableDetails[id];
+    const index = savedTimetables.findIndex((t) => t.timetableId === id);
+    if (index !== -1) savedTimetables.splice(index, 1);
+
     return new HttpResponse(null, { status: 204 });
   }),
 ];
