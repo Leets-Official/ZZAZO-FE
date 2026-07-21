@@ -77,3 +77,27 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T | null>
   }
   return json.data;
 }
+
+export async function apiDelete(path: string): Promise<void> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+  } catch {
+    throw new ApiError('NETWORK_ERROR', '네트워크 연결을 확인해주세요.', 0);
+  }
+
+  // 204 No Content: body가 없으므로 파싱하지 않는다
+  if (res.status === 204) return;
+
+  // 그 외(에러)는 envelope을 파싱해 메시지 추출
+  let json: ApiResponse<null>;
+  try {
+    json = (await res.json()) as ApiResponse<null>;
+  } catch {
+    throw new ApiError('PARSE_ERROR', '일시적인 오류가 발생했습니다.', res.status);
+  }
+  throw new ApiError(json.code, json.message, res.status);
+}

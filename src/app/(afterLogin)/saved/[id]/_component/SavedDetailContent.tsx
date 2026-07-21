@@ -7,8 +7,13 @@ import { ConditionSummary } from '@/features/saved-timetable/components/Conditio
 import { CourseTable } from '@/features/saved-timetable/components/CourseTable';
 import { Button, buttonStyle } from '@/shared/ui/Button';
 import { ROUTES } from '@/shared/lib/route';
+import { useState } from 'react';
+import { Modal } from '@/shared/ui/Modal';
+import { useDeleteSavedTimetable } from '@/features/saved-timetable/hooks/useDeleteSavedTimetable';
 
 export function SavedDetailContent({ id }: { id: number }) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const deleteMutation = useDeleteSavedTimetable();
   const { data, isPending, isError, error } = useSavedTimetableDetail(id);
 
   const notFound = isError && (error as { status?: number })?.status === 404;
@@ -49,13 +54,51 @@ export function SavedDetailContent({ id }: { id: number }) {
             <CourseTable courses={data.courses} className="mb-8" />
 
             <div className="flex gap-3">
-              <Button variant="danger" size="lg" className="flex-1">
+              <Button
+                variant="danger"
+                size="lg"
+                className="flex-1"
+                onClick={() => setConfirmOpen(true)}
+              >
                 삭제하기
               </Button>
               <Link href={ROUTES.saved} className={buttonStyle('primary', 'lg', 'flex-1')}>
                 목록으로 돌아가기
               </Link>
             </div>
+
+            <Modal
+              open={confirmOpen}
+              onClose={() => setConfirmOpen(false)}
+              title="시간표를 삭제할까요?"
+              footer={
+                <>
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    className="flex-1"
+                    disabled={deleteMutation.isPending}
+                    onClick={() => setConfirmOpen(false)}
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="md"
+                    className="flex-1"
+                    disabled={deleteMutation.isPending}
+                    onClick={() => deleteMutation.mutate(data.timetableId)}
+                  >
+                    삭제
+                  </Button>
+                </>
+              }
+            >
+              <p>
+                <span className="font-semibold text-p900">{data.candidateName}</span> 시간표를
+                삭제하면 되돌릴 수 없습니다.
+              </p>
+            </Modal>
           </>
         )}
       </main>
