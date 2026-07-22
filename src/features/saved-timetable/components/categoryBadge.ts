@@ -1,4 +1,4 @@
-import type { CourseCategory } from '@/features/timetable/type';
+import type { CourseCategory } from '@/shared/types';
 
 export const CATEGORY_BADGE: Record<CourseCategory, string> = {
   교양필수: 'bg-p50 text-p700',

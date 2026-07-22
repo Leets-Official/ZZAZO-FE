@@ -1,4 +1,4 @@
-import type { CourseCategory } from '@/features/timetable/type';
+import type { CourseCategory } from '@/shared/types';
 import type { BadgeVariant } from '@/shared/ui/Badge';
 import { Badge } from '@/shared/ui/Badge';
 

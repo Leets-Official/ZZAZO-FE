@@ -1,4 +1,5 @@
-import type { Course, CourseCategory, Lecture, LectureClassification } from '../type';
+import type { CourseCategory } from '@/shared/types';
+import type { Course, Lecture, LectureClassification } from '../type';
 
 const LECTURE_CLASSIFICATION_LABEL: Record<LectureClassification, CourseCategory> = {
   MAJOR_REQUIREMENT: '전공필수',

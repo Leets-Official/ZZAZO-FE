@@ -1,4 +1,5 @@
-import { type CourseCategory, type Weekday } from '../type';
+import type { CourseCategory } from '@/shared/types';
+import { type Weekday } from '../type';
 
 export const CATEGORY_STYLE: Record<CourseCategory, { cell: string; bar: string }> = {
   교양필수: { cell: 'bg-p100 text-p800', bar: 'bg-p600' },
