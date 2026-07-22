@@ -6,4 +6,5 @@ export const CATEGORY_BADGE: Record<CourseCategory, string> = {
   전공필수: 'bg-g200 text-g800',
   전공선택: 'bg-g50 text-g700',
   전공기초: 'bg-w100 text-w800',
+  일반선택: 'bg-s100 text-s800',
 };

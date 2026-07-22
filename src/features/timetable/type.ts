@@ -8,7 +8,8 @@ export type Weekday = (typeof WEEKDAYS)[number];
 export type LectureClassification =
   'MAJOR_REQUIREMENT' | 'MAJOR_ELECTIVE' | 'LIBERAL_REQUIREMENT' | 'LIBERAL_ELECTIVE';
 
-export type CourseCategory = '교양필수' | '교양선택' | '전공필수' | '전공선택' | '전공기초';
+export type CourseCategory =
+  '교양필수' | '교양선택' | '전공필수' | '전공선택' | '전공기초' | '일반선택';
 
 export interface LectureTime {
   startTime: string;
@@ -30,7 +31,7 @@ export interface Course {
   section: string;
   professor: string;
   credit: number;
-  lectureClassification: CourseType;
+  lectureClassification: CourseCategory;
   classroom: string;
   lectureTime: LectureTime[];
 }

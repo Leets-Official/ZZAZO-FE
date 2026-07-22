@@ -1,8 +1,8 @@
-import type { CourseType } from '@/features/timetable/type';
+import type { CourseCategory } from '@/features/timetable/type';
 import type { BadgeVariant } from '@/shared/ui/Badge';
 import { Badge } from '@/shared/ui/Badge';
 
-const COURSE_BADGE_VARIANT: Record<CourseType, BadgeVariant> = {
+const COURSE_BADGE_VARIANT: Record<CourseCategory, BadgeVariant> = {
   전공기초: 'majorBasic',
   교양필수: 'generalEducationRequired',
   교양선택: 'generalEducationElective',
@@ -11,6 +11,6 @@ const COURSE_BADGE_VARIANT: Record<CourseType, BadgeVariant> = {
   일반선택: 'general',
 };
 
-export function CourseTypeBadge({ type }: { type: CourseType }) {
+export function CourseTypeBadge({ type }: { type: CourseCategory }) {
   return <Badge variant={COURSE_BADGE_VARIANT[type]}>{type}</Badge>;
 }
