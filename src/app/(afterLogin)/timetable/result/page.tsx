@@ -10,12 +10,18 @@ import { ROUTES } from '@/shared/lib/route';
 export default function TimetableResultPage() {
   const router = useRouter();
   const result = useRecommendResultStore((s) => s.result);
+  const clearResult = useRecommendResultStore((s) => s.clearResult);
 
   useEffect(() => {
     // 추천 결과는 조건 입력 직후에만 스토어에 존재한다.
     // 새로고침 등으로 비어 있으면 조건 입력 화면으로 되돌린다.
     if (!result) router.replace(ROUTES.timetable);
   }, [result, router]);
+
+  useEffect(() => {
+    // 이 화면을 벗어나면 결과를 비워, 나중에 다시 들어왔을 때 stale 결과가 보이지 않게 한다.
+    return () => clearResult();
+  }, [clearResult]);
 
   if (!result) return null;
 
