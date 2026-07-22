@@ -15,6 +15,7 @@ import { ROUTES } from '@/shared/lib/route';
 import { DEPARTMENTS } from '@/shared/constants/department';
 import { recommendTimetable } from '../api/timetableApi';
 import { conditionSchema, type ConditionForm as ConditionFormValues } from '../schemas';
+import { useRecommendResultStore } from '../store/recommendResultStore';
 import { FreeDayChips } from './FreeDayChips';
 
 // TODO: 로그인 응답에 학년/학기 정보가 없어 임시 고정값 사용.
@@ -24,6 +25,7 @@ const TEMP_SEMESTER = 2;
 
 export function ConditionForm() {
   const router = useRouter();
+  const setRecommendResult = useRecommendResultStore((s) => s.setResult);
   const [submitError, setSubmitError] = useState<string>();
 
   const {
@@ -40,7 +42,12 @@ export function ConditionForm() {
 
   const recommendMutation = useMutation({
     mutationFn: recommendTimetable,
-    onSuccess: () => router.push(ROUTES.timetableResult),
+    // 추천 결과는 id도 재조회 API도 없는 1회성 데이터라 스토어에 담아 결과 화면으로 그대로 넘긴다.
+    onSuccess: (data) => {
+      if (!data) return;
+      setRecommendResult(data);
+      router.push(ROUTES.timetableResult);
+    },
     onError: (e: ApiError) => setSubmitError(e.message),
   });
 

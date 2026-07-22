@@ -43,14 +43,6 @@ export interface Timetable {
   courses: Course[];
 }
 
-export interface TimetableCandidate {
-  id: number;
-  title: string;
-  label: string;
-  totalCredit: number;
-  courses: Course[];
-}
-
 export interface RecommendConditionRequest {
   departmentId: number;
   grade: number;
