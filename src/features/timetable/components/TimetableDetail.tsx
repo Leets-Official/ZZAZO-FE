@@ -1,17 +1,24 @@
 import { CourseTable } from '@/features/timetable/components/CourseTable';
 import { ScheduleGrid } from '@/features/timetable/components/ScheduleGrid';
 import type { Course } from '@/features/timetable/type';
+import { cn } from '@/shared/lib/cd';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
 
 interface TimetableDetailProps {
   totalCredit: number;
   courses: Course[];
+  className?: string;
 }
 
-export function TimetableDetail({ totalCredit, courses }: TimetableDetailProps) {
+export function TimetableDetail({ totalCredit, courses, className }: TimetableDetailProps) {
   return (
-    <section className="mx-auto w-full overflow-hidden rounded-md border border-s200 bg-s50 shadow-lg">
+    <section
+      className={cn(
+        'mx-auto w-full overflow-hidden rounded-md border border-s200 bg-s50 shadow-lg',
+        className
+      )}
+    >
       <div className="flex items-center justify-between border-b border-s200 bg-white px-6 py-5 sm:px-8">
         <span className="text-lg font-black tracking-[6px] text-p600">ZZAZO</span>
         <Button type="button" variant="text" size="sm" disabled>
