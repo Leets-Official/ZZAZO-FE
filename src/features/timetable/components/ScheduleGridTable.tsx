@@ -76,30 +76,32 @@ export function ScheduleGridTable({ scheduleItems, rowCount, timeLabels }: Sched
               />
             ))}
 
-          {scheduleItems.map(({ course, lectureTime, dayIndex, startMinutes, endMinutes }) => {
-            const rowSpan = Math.ceil((endMinutes - startMinutes) / TIME_STEP_MINUTES);
-            const style = CATEGORY_STYLE[course.lectureClassification];
+          {scheduleItems.map(
+            ({ course, lectureTime, dayIndex, startMinutes, endMinutes }, index) => {
+              const rowSpan = Math.ceil((endMinutes - startMinutes) / TIME_STEP_MINUTES);
+              const style = CATEGORY_STYLE[course.lectureClassification];
 
-            return (
-              <div
-                key={`${course.lectureId}-${lectureTime.dayOfWeek}-${lectureTime.startTime}`}
-                className={cn(
-                  'relative flex min-w-0 items-center justify-center overflow-hidden border-b border-l border-s200 px-[5px] py-[7px] text-center text-[10px] font-semibold leading-[1.3]',
-                  style.cell
-                )}
-                style={{
-                  gridColumn: dayIndex + 2,
-                  gridRow: `${getTimeRows(startMinutes) + 1} / span ${rowSpan}`,
-                }}
-                aria-label={`${course.lectureName}, ${
-                  DAY_LABELS[lectureTime.dayOfWeek as Weekday]
-                }요일 ${lectureTime.startTime}부터 ${lectureTime.endTime}까지`}
-              >
-                <span className={cn('absolute inset-y-0 left-0 w-0.5', style.bar)} />
-                <span className="overflow-hidden break-keep">{course.lectureName}</span>
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={`${course.lectureId}-${lectureTime.dayOfWeek}-${lectureTime.startTime}-${lectureTime.endTime}-${index}`}
+                  className={cn(
+                    'relative flex min-w-0 items-center justify-center overflow-hidden border-b border-l border-s200 px-[5px] py-[7px] text-center text-[10px] font-semibold leading-[1.3]',
+                    style.cell
+                  )}
+                  style={{
+                    gridColumn: dayIndex + 2,
+                    gridRow: `${getTimeRows(startMinutes) + 1} / span ${rowSpan}`,
+                  }}
+                  aria-label={`${course.lectureName}, ${
+                    DAY_LABELS[lectureTime.dayOfWeek as Weekday]
+                  }요일 ${lectureTime.startTime}부터 ${lectureTime.endTime}까지`}
+                >
+                  <span className={cn('absolute inset-y-0 left-0 w-0.5', style.bar)} />
+                  <span className="overflow-hidden break-keep">{course.lectureName}</span>
+                </div>
+              );
+            }
+          )}
         </div>
       </div>
     </div>

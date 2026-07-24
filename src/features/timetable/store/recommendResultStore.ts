@@ -1,9 +1,12 @@
 import { create } from 'zustand';
-import type { RecommendResultData } from '../type';
+import type { RecommendConditionRequest, RecommendResultData } from '../type';
 
 interface RecommendResultState {
   result: RecommendResultData | null;
-  setResult: (result: RecommendResultData) => void;
+  condition: RecommendConditionRequest | null;
+  savedTimetableId: number | null;
+  setResult: (result: RecommendResultData, condition: RecommendConditionRequest) => void;
+  setSavedTimetableId: (id: number) => void;
   clearResult: () => void;
 }
 
@@ -11,6 +14,9 @@ interface RecommendResultState {
 // 새로고침하면 비어서 결과 화면이 조건 입력으로 되돌려보낸다.
 export const useRecommendResultStore = create<RecommendResultState>((set) => ({
   result: null,
-  setResult: (result) => set({ result }),
-  clearResult: () => set({ result: null }),
+  condition: null,
+  savedTimetableId: null,
+  setResult: (result, condition) => set({ result, condition, savedTimetableId: null }),
+  setSavedTimetableId: (id) => set({ savedTimetableId: id }),
+  clearResult: () => set({ result: null, condition: null, savedTimetableId: null }),
 }));

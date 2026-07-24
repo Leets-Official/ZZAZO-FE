@@ -43,9 +43,9 @@ export function ConditionForm() {
   const recommendMutation = useMutation({
     mutationFn: recommendTimetable,
     // 추천 결과는 id도 재조회 API도 없는 1회성 데이터라 스토어에 담아 결과 화면으로 그대로 넘긴다.
-    onSuccess: (data) => {
+    onSuccess: (data, condition) => {
       if (!data) return;
-      setRecommendResult(data);
+      setRecommendResult(data, condition);
       router.push(ROUTES.timetableResult);
     },
     onError: (e: ApiError) => setSubmitError(e.message),
@@ -53,13 +53,16 @@ export function ConditionForm() {
 
   const onSubmit = (values: ConditionFormValues) => {
     setSubmitError(undefined);
-    recommendMutation.mutate({
+    const condition = {
       departmentId: Number(values.departmentId),
       grade: TEMP_GRADE,
       semester: TEMP_SEMESTER,
       targetCredits: Number(values.targetCredits),
       preferredFreeDays: values.preferredFreeDays,
-    });
+      priority: 'FREE_PERIOD' as const,
+    };
+
+    recommendMutation.mutate(condition);
   };
 
   const targetCredits = watch('targetCredits');
@@ -122,7 +125,7 @@ export function ConditionForm() {
           className="mt-2 w-full justify-center"
           disabled={recommendMutation.isPending}
         >
-          후보 추천 받기 →
+          시간표 추천 받기 →
         </Button>
       </form>
     </>

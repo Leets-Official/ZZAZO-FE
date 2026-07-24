@@ -49,11 +49,27 @@ export interface RecommendConditionRequest {
   preferredFreeDays?: DayOfWeek[];
   targetCredits: number;
   selectedLectureIds?: number[];
-  priority?: 'FREE_PERIOD' | 'LECTURE_CRITERIA';
+  priority: 'FREE_PERIOD' | 'LECTURE_CRITERIA';
 }
 
 export interface RecommendResultData {
   totalCredits: number;
   preferredFreeDays: DayOfWeek[];
   timetables: Lecture[];
+}
+
+export interface SaveTimetableRequest {
+  candidateName: string;
+  departmentId: number;
+  semester: number;
+  grade: number;
+  preferredFreeDays: DayOfWeek[];
+  targetCredits: number;
+  selectedLectureIds: number[];
+  totalCredits: number;
+}
+
+export interface SaveTimetableResponse {
+  timetableId: number;
+  message: string;
 }
