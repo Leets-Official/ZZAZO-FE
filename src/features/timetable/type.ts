@@ -1,3 +1,5 @@
+import type { CourseCategory } from '@/shared/types';
+
 export const DAYS_OF_WEEK = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] as const;
 export type DayOfWeek = (typeof DAYS_OF_WEEK)[number];
 
@@ -7,8 +9,6 @@ export type Weekday = (typeof WEEKDAYS)[number];
 
 export type LectureClassification =
   'MAJOR_REQUIREMENT' | 'MAJOR_ELECTIVE' | 'LIBERAL_REQUIREMENT' | 'LIBERAL_ELECTIVE';
-
-export type CourseCategory = '교양필수' | '교양선택' | '전공필수' | '전공선택' | '전공기초';
 
 export interface LectureTime {
   startTime: string;
@@ -30,7 +30,7 @@ export interface Course {
   section: string;
   professor: string;
   credit: number;
-  lectureClassification: CourseType;
+  lectureClassification: CourseCategory;
   classroom: string;
   lectureTime: LectureTime[];
 }
@@ -38,14 +38,6 @@ export interface Course {
 export interface Timetable {
   id: string;
   title: string;
-  totalCredit: number;
-  courses: Course[];
-}
-
-export interface TimetableCandidate {
-  id: number;
-  title: string;
-  label: string;
   totalCredit: number;
   courses: Course[];
 }

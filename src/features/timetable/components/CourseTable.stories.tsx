@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { CourseTable } from '@/features/timetable/components/CourseTable';
-import { getTimetableCandidateMock } from '../../../../mocks/data/timetableCandidates';
-
-const candidate = getTimetableCandidateMock('1');
+import { mockCourses } from '../../../../mocks/data/mockCourses';
 
 const meta = {
   title: 'Timetable/CourseTable',
@@ -25,6 +23,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    courses: candidate?.courses ?? [],
+    courses: mockCourses,
   },
 };

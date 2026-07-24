@@ -11,6 +11,8 @@ const DAY_LABEL: Record<DayOfWeek, string> = {
   WED: '수',
   THU: '목',
   FRI: '금',
+  SAT: '토',
+  SUN: '일',
 };
 
 function formatLectureTime(course: Course) {
