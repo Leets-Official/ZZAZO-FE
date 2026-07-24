@@ -10,7 +10,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="min-h-screen bg-s50 px-8 py-10">
+      <div className="mx-auto min-h-screen max-w-3xl bg-s50 px-6 py-10">
         <Story />
       </div>
     ),

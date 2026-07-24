@@ -28,6 +28,6 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByLabelText('학과')).toBeInTheDocument();
     await expect(canvas.getByLabelText('목표 학점')).toBeInTheDocument();
-    await expect(canvas.getByRole('button', { name: '후보 추천 받기 →' })).toBeInTheDocument();
+    await expect(canvas.getByRole('button', { name: '시간표 추천 받기 →' })).toBeInTheDocument();
   },
 };
