@@ -45,6 +45,68 @@ export const timetableHandlers = [
     });
   }),
 
+  http.post(`${BASE}/timetables`, async ({ request }) => {
+    const body = (await request.json()) as {
+      candidateName: string;
+      departmentId: number;
+      semester: number;
+      grade: number;
+      preferredFreeDays: string[];
+      targetCredits: number;
+      selectedLectureIds: number[];
+      totalCredits: number;
+    };
+    const timetableId = Math.max(...savedTimetables.map((t) => t.timetableId), 0) + 1;
+    const courses = Object.values(savedTimetableDetails)
+      .flatMap((detail) => detail.courses)
+      .filter((course, index, all) => {
+        const isSelected = body.selectedLectureIds.includes(course.lectureId);
+        const isFirst = all.findIndex((item) => item.lectureId === course.lectureId) === index;
+        return isSelected && isFirst;
+      });
+
+    savedTimetables.unshift({
+      timetableId,
+      candidateName: body.candidateName,
+      departmentId: body.departmentId,
+      totalCredits: body.totalCredits,
+      preferredFreeDays: body.preferredFreeDays,
+      createdAt: new Date().toISOString(),
+    });
+
+    savedTimetableDetails[timetableId] = {
+      timetableId,
+      candidateName: body.candidateName,
+      departmentId: body.departmentId,
+      semester: body.semester,
+      grade: body.grade,
+      preferredFreeDays: body.preferredFreeDays,
+      targetCredits: body.targetCredits,
+      selectedLectureIds: body.selectedLectureIds,
+      totalCredits: body.totalCredits,
+      requirementCheck: {
+        targetCreditSatisfied: body.totalCredits >= body.targetCredits,
+        requiredCourseIncluded: true,
+        foundationCourseIncluded: true,
+        generalEducationIncluded: true,
+      },
+      courses,
+    };
+
+    return HttpResponse.json(
+      {
+        isSuccess: true,
+        code: 'COMMON_201_1',
+        message: '요청 리소스 생성 성공',
+        data: {
+          timetableId,
+          message: '시간표가 저장되었습니다.',
+        },
+      },
+      { status: 201 }
+    );
+  }),
+
   http.get(`${BASE}/timetables/:timetableId`, ({ params }) => {
     const id = Number(params.timetableId);
     const detail = savedTimetableDetails[id];
