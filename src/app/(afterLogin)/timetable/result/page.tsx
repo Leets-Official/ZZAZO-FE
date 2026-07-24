@@ -24,6 +24,8 @@ export default function TimetableResultPage() {
   const { showToast } = useToast();
   const result = useRecommendResultStore((s) => s.result);
   const condition = useRecommendResultStore((s) => s.condition);
+  const savedTimetableId = useRecommendResultStore((s) => s.savedTimetableId);
+  const setSavedTimetableId = useRecommendResultStore((s) => s.setSavedTimetableId);
 
   const saveMutation = useMutation({
     mutationFn: () => {
@@ -34,6 +36,9 @@ export default function TimetableResultPage() {
       return saveTimetable(createSaveTimetableRequest(result, condition));
     },
     onSuccess: (data) => {
+      if (data?.timetableId) {
+        setSavedTimetableId(data.timetableId);
+      }
       queryClient.invalidateQueries({ queryKey: ['savedTimetables'] });
       showToast(data?.message ?? '시간표가 저장되었습니다.');
     },
@@ -60,7 +65,7 @@ export default function TimetableResultPage() {
           courses={result.timetables.map(mapLectureToCourse)}
           onSave={() => saveMutation.mutate()}
           isSaving={saveMutation.isPending}
-          isSaved={saveMutation.isSuccess}
+          isSaved={savedTimetableId !== null}
         />
       </main>
     </>

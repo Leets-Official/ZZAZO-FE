@@ -4,7 +4,9 @@ import type { RecommendConditionRequest, RecommendResultData } from '../type';
 interface RecommendResultState {
   result: RecommendResultData | null;
   condition: RecommendConditionRequest | null;
+  savedTimetableId: number | null;
   setResult: (result: RecommendResultData, condition: RecommendConditionRequest) => void;
+  setSavedTimetableId: (id: number) => void;
   clearResult: () => void;
 }
 
@@ -13,6 +15,8 @@ interface RecommendResultState {
 export const useRecommendResultStore = create<RecommendResultState>((set) => ({
   result: null,
   condition: null,
-  setResult: (result, condition) => set({ result, condition }),
-  clearResult: () => set({ result: null, condition: null }),
+  savedTimetableId: null,
+  setResult: (result, condition) => set({ result, condition, savedTimetableId: null }),
+  setSavedTimetableId: (id) => set({ savedTimetableId: id }),
+  clearResult: () => set({ result: null, condition: null, savedTimetableId: null }),
 }));
