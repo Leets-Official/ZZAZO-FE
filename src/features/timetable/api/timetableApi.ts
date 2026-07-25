@@ -1,4 +1,4 @@
-import { apiPost, apiPostApi } from '@/shared/lib/apiClient';
+import { apiPost } from '@/shared/lib/apiClient';
 import type {
   RecommendConditionRequest,
   RecommendResultData,
@@ -10,4 +10,4 @@ export const recommendTimetable = (body: RecommendConditionRequest) =>
   apiPost<RecommendResultData>('/timetables/recommend', body);
 
 export const saveTimetable = (body: SaveTimetableRequest) =>
-  apiPostApi<SaveTimetableResponse>('/timetables', body);
+  apiPost<SaveTimetableResponse>('/timetables', body);

@@ -51,13 +51,7 @@ export class ApiError extends Error {
   }
 }
 
-const AUTH_BASE = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/api/v1`;
-
 export async function apiPost<T>(path: string, body: unknown): Promise<T | null> {
-  return postJson<T>(`${AUTH_BASE}${path}`, body);
-}
-
-export async function apiPostApi<T>(path: string, body: unknown): Promise<T | null> {
   return postJson<T>(`${API_BASE}${path}`, body);
 }
 
