@@ -39,8 +39,9 @@ export default function TimetableResultPage() {
       if (data?.timetableId) {
         setSavedTimetableId(data.timetableId);
       }
-      queryClient.invalidateQueries({ queryKey: ['savedTimetables'] });
+      queryClient.removeQueries({ queryKey: ['savedTimetables'] });
       showToast(data?.message ?? '시간표가 저장되었습니다.');
+      router.push(ROUTES.saved);
     },
     onError: (e) => {
       showToast((e as ApiError | Error).message, 'error');
@@ -65,7 +66,7 @@ export default function TimetableResultPage() {
           courses={result.timetables.map(mapLectureToCourse)}
           onSave={() => saveMutation.mutate()}
           isSaving={saveMutation.isPending}
-          isSaved={savedTimetableId !== null}
+          isSaved={saveMutation.isSuccess || savedTimetableId !== null}
         />
       </main>
     </>
