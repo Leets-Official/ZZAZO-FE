@@ -24,7 +24,7 @@ export const signupSchema = z
       .regex(/[a-zA-Z]/, '영문을 포함해야 합니다.')
       .regex(/[0-9]/, '숫자를 포함해야 합니다.'),
     passwordConfirm: z.string().min(1, '비밀번호를 다시 입력해주세요.'),
-    studentId: z.string().regex(/^\d{8}$/, '학번 8자리를 입력해주세요.'),
+    studentId: z.string().regex(/^\d{9}$/, '학번 9자리를 입력해주세요.'),
     grade: z.string().min(1, '학년을 선택해주세요.'),
     departmentId: z.string().min(1, '학과를 선택해주세요.'),
   })
