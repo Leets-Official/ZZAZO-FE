@@ -10,6 +10,17 @@ import { ROUTES } from '@/shared/lib/route';
 import { useState } from 'react';
 import { Modal } from '@/shared/ui/Modal';
 import { useDeleteSavedTimetable } from '@/features/saved-timetable/hooks/useDeleteSavedTimetable';
+import type { Course } from '@/features/timetable/type';
+import type { CourseCategory } from '@/shared/types';
+
+const LECTURE_CLASSIFICATION_LABEL: Record<string, CourseCategory> = {
+  MAJOR_REQUIREMENT: '전공필수',
+  MAJOR_ELECTIVE: '전공선택',
+  MAJOR_BASIC: '전공기초',
+  LIBERAL_REQUIREMENT: '교양필수',
+  LIBERAL_ELECTIVE: '교양선택',
+  GENERAL_ELECTIVE: '일반선택',
+};
 
 export function SavedDetailContent({ id }: { id: number }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -17,6 +28,7 @@ export function SavedDetailContent({ id }: { id: number }) {
   const { data, isPending, isError, error } = useSavedTimetableDetail(id);
 
   const notFound = isError && (error as { status?: number })?.status === 404;
+  const courses = data?.courses.map(normalizeCourseClassification) ?? [];
 
   return (
     <>
@@ -49,9 +61,9 @@ export function SavedDetailContent({ id }: { id: number }) {
 
             <ConditionSummary detail={data} className="mb-5" />
 
-            <ScheduleGrid courses={data.courses} className="mb-5" />
+            <ScheduleGrid courses={courses} className="mb-5" />
 
-            <CourseTable courses={data.courses} className="mb-8" />
+            <CourseTable courses={courses} className="mb-8" />
 
             <div className="flex gap-3">
               <Button
@@ -104,6 +116,17 @@ export function SavedDetailContent({ id }: { id: number }) {
       </main>
     </>
   );
+}
+
+function normalizeCourseClassification(course: Course): Course {
+  const lectureClassification = String(course.lectureClassification);
+
+  return {
+    ...course,
+    lectureClassification:
+      LECTURE_CLASSIFICATION_LABEL[lectureClassification] ??
+      (lectureClassification as CourseCategory),
+  };
 }
 
 function DetailSkeleton() {
