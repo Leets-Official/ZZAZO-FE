@@ -195,8 +195,8 @@ export function SignupForm() {
       <Input
         label="학번"
         inputMode="numeric"
-        maxLength={8}
-        placeholder="20210001"
+        maxLength={9}
+        placeholder="202100001"
         error={errors.studentId?.message}
         {...register('studentId')}
       />
