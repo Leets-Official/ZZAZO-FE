@@ -3,7 +3,10 @@ import { ScheduleGrid } from '@/features/timetable/components/ScheduleGrid';
 import type { Course } from '@/features/timetable/type';
 import { cn } from '@/shared/lib/cd';
 import { Badge } from '@/shared/ui/Badge';
-import { Button } from '@/shared/ui/Button';
+import { Button, buttonStyle } from '@/shared/ui/Button';
+
+const FEEDBACK_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScZCZFrM9wfzXK8IinsV8Fx9iLtONMMViNtxg9iN1opnFPNow/viewform?usp=sharing&ouid=104278730119842046186';
 
 interface TimetableDetailProps {
   totalCredit: number;
@@ -38,9 +41,14 @@ export function TimetableDetail({
         <ScheduleGrid courses={courses} />
         <CourseTable courses={courses} />
         <div className="flex gap-3">
-          <Button type="button" variant="secondary" size="lg" className="flex-1" disabled>
+          <a
+            href={FEEDBACK_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonStyle('secondary', 'lg', 'flex-1')}
+          >
             피드백 남기기
-          </Button>
+          </a>
           <Button
             type="button"
             size="lg"
