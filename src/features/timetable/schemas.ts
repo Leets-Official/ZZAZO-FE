@@ -10,6 +10,7 @@ export const conditionSchema = z.object({
   preferredFreeDays: z
     .array(z.enum(DAYS_OF_WEEK))
     .max(2, '공강 요일은 최대 2개까지 선택할 수 있습니다.'),
+  priority: z.enum(['FREE_PERIOD', 'LECTURE_CRITERIA']),
 });
 
 export type ConditionForm = z.infer<typeof conditionSchema>;
