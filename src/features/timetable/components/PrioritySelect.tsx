@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import { Chip } from '@/shared/ui/Chip';
+import { cn } from '@/shared/lib/cd';
 import type { RecommendPriority } from '../type';
 
 const PRIORITY_OPTIONS: Array<{ value: RecommendPriority; label: string; description: string }> = [
@@ -19,21 +20,22 @@ interface PrioritySelectProps {
   value: RecommendPriority;
   onChange: (value: RecommendPriority) => void;
   error?: string;
+  className?: string;
 }
 
-export function PrioritySelect({ value, onChange, error }: PrioritySelectProps) {
+export function PrioritySelect({ value, onChange, error, className }: PrioritySelectProps) {
   const labelId = useId();
   const hintId = useId();
 
   const selectedOption = PRIORITY_OPTIONS.find((option) => option.value === value);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={cn('flex flex-col gap-2', className)}>
       <span id={labelId} className="text-sm font-semibold text-s700">
         추천 기준
       </span>
       <div
-        role="radiogroup"
+        role="group"
         aria-labelledby={labelId}
         aria-describedby={hintId}
         className="flex flex-wrap gap-1.5"
