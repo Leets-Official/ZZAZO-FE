@@ -17,6 +17,7 @@ import { recommendTimetable } from '../api/timetableApi';
 import { conditionSchema, type ConditionForm as ConditionFormValues } from '../schemas';
 import { useRecommendResultStore } from '../store/recommendResultStore';
 import { FreeDayChips } from './FreeDayChips';
+import { PrioritySelect } from './PrioritySelect';
 
 // TODO: 로그인 응답에 학년/학기 정보가 없어 임시 고정값 사용.
 // 사용자 프로필 조회 API가 생기면 실제 값으로 교체할 것.
@@ -37,7 +38,12 @@ export function ConditionForm() {
   } = useForm<ConditionFormValues>({
     resolver: zodResolver(conditionSchema),
     mode: 'onBlur',
-    defaultValues: { departmentId: '', targetCredits: '', preferredFreeDays: [] },
+    defaultValues: {
+      departmentId: '',
+      targetCredits: '',
+      preferredFreeDays: [],
+      priority: 'FREE_PERIOD',
+    },
   });
 
   const recommendMutation = useMutation({
@@ -59,7 +65,7 @@ export function ConditionForm() {
       semester: TEMP_SEMESTER,
       targetCredits: Number(values.targetCredits),
       preferredFreeDays: values.preferredFreeDays,
-      priority: 'FREE_PERIOD' as const,
+      priority: values.priority,
     };
 
     recommendMutation.mutate(condition);
@@ -109,6 +115,18 @@ export function ConditionForm() {
               value={field.value}
               onChange={field.onChange}
               error={errors.preferredFreeDays?.message}
+            />
+          )}
+        />
+
+        <Controller
+          name="priority"
+          control={control}
+          render={({ field }) => (
+            <PrioritySelect
+              value={field.value}
+              onChange={field.onChange}
+              error={errors.priority?.message}
             />
           )}
         />

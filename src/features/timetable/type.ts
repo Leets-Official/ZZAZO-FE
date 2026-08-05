@@ -42,6 +42,8 @@ export interface Timetable {
   courses: Course[];
 }
 
+export type RecommendPriority = 'FREE_PERIOD' | 'LECTURE_CRITERIA';
+
 export interface RecommendConditionRequest {
   departmentId: number;
   grade: number;
@@ -49,7 +51,7 @@ export interface RecommendConditionRequest {
   preferredFreeDays?: DayOfWeek[];
   targetCredits: number;
   selectedLectureIds?: number[];
-  priority: 'FREE_PERIOD' | 'LECTURE_CRITERIA';
+  priority: RecommendPriority;
 }
 
 export interface RecommendResultData {
